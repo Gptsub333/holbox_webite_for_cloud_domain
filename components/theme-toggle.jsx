@@ -7,9 +7,8 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState("light")
 
   useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const savedTheme =
-      localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    // Check for saved theme preference or default to light mode
+    const savedTheme = localStorage.getItem("theme") || "light"
 
     setTheme(savedTheme)
     document.documentElement.classList.toggle("dark", savedTheme === "dark")

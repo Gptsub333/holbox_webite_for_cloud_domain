@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Linkedin, Twitter, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
+import { Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react"
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -11,24 +11,6 @@ export default function Footer() {
   return (
     <footer className="bg-muted dark:bg-gray-900 py-16">
       <div className="container-custom">
-        {/* Newsletter Section */}
-        <div className="mb-16 bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-border/40">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-2">Stay Updated with HolboxAI</h3>
-              <p className="text-muted-foreground mb-0">
-                Subscribe to our newsletter for the latest in AI technology, industry insights, and company news.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="https://zcmp.in/pWQA" target="_blank" className="btn-primary">
-                Subscribe Now
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
           <div className="lg:col-span-1">
@@ -46,11 +28,15 @@ export default function Footer() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Phone size={16} className="text-primary" />
-                <span>+1 (555) 123-4567</span>
+                <a href="tel:+15551234567" className="hover:text-foreground transition-colors">
+                  +1 (555) 123-4567
+                </a>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Mail size={16} className="text-primary" />
-                <span>info@holboxai.com</span>
+                <a href="mailto:info@holboxai.cloud" className="hover:text-foreground transition-colors">
+                  info@holboxai.cloud
+                </a>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin size={16} className="text-primary" />
@@ -70,13 +56,6 @@ export default function Footer() {
                 About Us
               </Link>
               <Link
-                href="/news-media"
-                onClick={scrollToTop}
-                className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                News & Media
-              </Link>
-              <Link
                 href="/blogs"
                 onClick={scrollToTop}
                 className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
@@ -89,13 +68,6 @@ export default function Footer() {
                 className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 Contact Us
-              </Link>
-              <Link
-                href="/careers"
-                onClick={scrollToTop}
-                className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Careers
               </Link>
             </nav>
           </div>
@@ -138,39 +110,11 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Resources</h4>
             <nav className="space-y-2">
               <Link
-                href="/documentation"
+                href="/blogs"
                 onClick={scrollToTop}
                 className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
               >
-                Documentation
-              </Link>
-              <Link
-                href="/api-reference"
-                onClick={scrollToTop}
-                className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                API Reference
-              </Link>
-              <Link
-                href="/case-studies"
-                onClick={scrollToTop}
-                className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Case Studies
-              </Link>
-              <Link
-                href="/tutorials"
-                onClick={scrollToTop}
-                className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Tutorials
-              </Link>
-              <Link
-                href="/faq"
-                onClick={scrollToTop}
-                className="block py-1.5 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                FAQ
+                Blog
               </Link>
             </nav>
           </div>
@@ -183,29 +127,31 @@ export default function Footer() {
 
             <div className="flex items-center gap-6 mt-4 md:mt-0">
               <div className="flex gap-3">
-                <Link
+                <a
                   href="https://in.linkedin.com/company/holboxai"
                   target="_blank"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                   aria-label="LinkedIn"
+                  rel="noreferrer"
                 >
                   <Linkedin size={18} />
-                </Link>
-                <Link
+                </a>
+                <a
                   href="https://twitter.com/holboxai"
                   target="_blank"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                   aria-label="Twitter"
+                  rel="noreferrer"
                 >
                   <Twitter size={18} />
-                </Link>
-                <Link
-                  href="mailto:info@holboxai.com"
+                </a>
+                <a
+                  href="mailto:info@holboxai.cloud"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-background text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                   aria-label="Email"
                 >
                   <Mail size={18} />
-                </Link>
+                </a>
               </div>
 
               <div className="flex gap-6">

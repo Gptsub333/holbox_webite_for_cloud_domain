@@ -2,16 +2,26 @@
 
 import { useRef } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { motion, useInView } from "framer-motion"
-import { CheckCircle, ArrowRight } from "lucide-react"
+import {
+  CheckCircle,
+  ArrowRight,
+  Stethoscope,
+  Factory,
+  ShoppingCart,
+  Building2,
+  Car,
+  Hotel,
+  Video,
+  Truck,
+} from "lucide-react"
 import { industryImages } from "@/components/image-library"
 
 export default function Industry() {
   const industries = [
     {
       title: "GenAI for Healthcare & Life-sciences",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353e6_healthcare.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/health-data.png",
       description:
         "Transform patient care, accelerate drug discovery, and streamline operations with our specialized healthcare AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7e55f1f4518234c11_1.png",
@@ -60,7 +70,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Manufacturing",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353e9_manufacturing.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/factory.png",
       description:
         "Optimize production processes, predict maintenance needs, and enhance quality control with our manufacturing AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7a25024eff690fad7_2.png",
@@ -94,7 +104,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Retail & E-commerce",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353ec_retail.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/shopping-cart.png",
       description:
         "Enhance customer experiences, personalize recommendations, and optimize inventory management with our retail AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb77a1e2cec342ed95c_3.png",
@@ -138,7 +148,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Finance & Banking",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353ef_finance.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/bank-building.png",
       description:
         "Strengthen security, automate processes, and deliver personalized financial services with our finance AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7c1c148287e2f9644_4.png",
@@ -172,7 +182,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Automotive",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353f2_automotive.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/car.png",
       description:
         "Drive innovation in vehicle design, enhance user experiences, and optimize maintenance with our automotive AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7c1c148287e2f9647_5.png",
@@ -201,7 +211,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Hospitality",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353f5_hospitality.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/hotel.png",
       description:
         "Elevate guest experiences, optimize pricing strategies, and streamline operations with our hospitality AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7c1c148287e2f964a_6.png",
@@ -235,7 +245,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Media",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353f8_media.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/video.png",
       description:
         "Create engaging content, personalize user experiences, and streamline production with our media AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7c1c148287e2f964d_7.png",
@@ -264,7 +274,7 @@ export default function Industry() {
     },
     {
       title: "GenAI for Logistics",
-      icon: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e5a1c0e55f1f45182353fb_logistics.png",
+      icon: "https://img.icons8.com/fluency-systems-regular/96/000000/delivery.png",
       description:
         "Optimize routes, forecast demand, and enhance supply chain visibility with our logistics AI solutions.",
       image: "https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7c1c148287e2f9650_8.png",
@@ -374,13 +384,23 @@ export default function Industry() {
                 >
                   <div className="feature-card flex flex-col items-center text-center">
                     <div className="mb-4 p-3 bg-primary/10 dark:bg-primary/20 rounded-lg inline-block">
-                      <Image
-                        src={industry.icon || "/placeholder.svg"}
-                        alt={industry.title}
-                        width={48}
-                        height={48}
-                        className="w-12 h-12"
-                      />
+                      {index === 0 ? (
+                        <Stethoscope className="h-16 w-16 text-primary" />
+                      ) : index === 1 ? (
+                        <Factory className="h-16 w-16 text-primary" />
+                      ) : index === 2 ? (
+                        <ShoppingCart className="h-16 w-16 text-primary" />
+                      ) : index === 3 ? (
+                        <Building2 className="h-16 w-16 text-primary" />
+                      ) : index === 4 ? (
+                        <Car className="h-16 w-16 text-primary" />
+                      ) : index === 5 ? (
+                        <Hotel className="h-16 w-16 text-primary" />
+                      ) : index === 6 ? (
+                        <Video className="h-16 w-16 text-primary" />
+                      ) : (
+                        <Truck className="h-16 w-16 text-primary" />
+                      )}
                     </div>
                     <h3 className="font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary transition-colors">
                       {industry.title}
@@ -396,10 +416,14 @@ export default function Industry() {
 
       {/* Industry Solutions Sections */}
       {industries
-        .map((industry, index) => ({
-          ...industry,
-          image: industry.image || industryImages[industry.title.toLowerCase().split(" ")[2]],
-        }))
+        .map((industry, index) => {
+          // Extract the key word from the industry title (e.g., "Healthcare", "Manufacturing")
+          const industryKey = industry.title.toLowerCase().split(" ")[2]?.toLowerCase().replace(/[&]/g, "")
+          return {
+            ...industry,
+            image: industry.image || industryImages[industryKey] || "/placeholder.svg?height=350&width=600",
+          }
+        })
         .map((industry, index) => (
           <section
             key={index}
@@ -412,16 +436,6 @@ export default function Industry() {
                   <span className="gradient-text">{industry.title}</span>
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300">{industry.description}</p>
-              </div>
-
-              <div className="mb-12">
-                <img
-                  src={
-                    industry.image || industryImages[industry.title.toLowerCase().split(" ")[2]] || "/placeholder.svg"
-                  }
-                  alt={industry.title}
-                  className="w-full max-w-3xl h-auto mx-auto rounded-xl shadow-lg object-contain max-h-[350px]"
-                />
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -460,7 +474,7 @@ export default function Industry() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href="/contact-us"
-                className="bg-white text-primary hover:bg-gray-100 font-bold py-3 px-8 rounded-md text-lg shadow-md hover:shadow-lg transition-all duration-300 group"
+                className="bg-white text-primary hover:bg-gray-100 font-bold py-3 px-8 rounded-md text-lg transition-all duration-300 group"
               >
                 Schedule a Consultation
                 <ArrowRight className="ml-2 inline-block h-5 w-5 transition-transform group-hover:translate-x-1" />

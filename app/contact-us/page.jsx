@@ -1,18 +1,81 @@
 "use client"
 
 import { useState } from "react"
-import { Mail, Phone, MapPin, Linkedin, Twitter, CheckCircle } from "lucide-react"
+import { Mail, Phone, MapPin, Linkedin, Twitter, CheckCircle, AlertCircle } from "lucide-react"
 import { motion } from "framer-motion"
 
 export default function Contact() {
-  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [formState, setFormState] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    company: "",
+    message: "",
+  })
+  const [formStatus, setFormStatus] = useState({
+    isSubmitting: false,
+    isSubmitted: false,
+    isError: false,
+    message: "",
+  })
 
-  const handleSubmit = (e) => {
+  const handleInputChange = (e) => {
+    const { id, value } = e.target
+    setFormState((prev) => ({
+      ...prev,
+      [id]: value,
+    }))
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Simulate form submission
-    setTimeout(() => {
-      setFormSubmitted(true)
-    }, 1000)
+
+    setFormStatus({
+      isSubmitting: true,
+      isSubmitted: false,
+      isError: false,
+      message: "",
+    })
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formState),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong")
+      }
+
+      setFormStatus({
+        isSubmitting: false,
+        isSubmitted: true,
+        isError: false,
+        message: data.message,
+      })
+
+      // Reset form after successful submission
+      setFormState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        company: "",
+        message: "",
+      })
+    } catch (error) {
+      console.error("Form submission error:", error)
+      setFormStatus({
+        isSubmitting: false,
+        isSubmitted: false,
+        isError: true,
+        message: error.message || "An unexpected error occurred. Please try again.",
+      })
+    }
   }
 
   const fadeInVariants = {
@@ -78,18 +141,27 @@ export default function Contact() {
                 className="contact-form"
               >
                 <h2 className="text-2xl font-bold mb-6 gradient-text">Send Us a Message</h2>
-                {formSubmitted ? (
+                {formStatus.isSubmitted ? (
                   <div className="text-center py-12">
                     <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-green-100 dark:bg-green-900">
                       <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-300" />
                     </div>
                     <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
                     <p className="text-gray-600 dark:text-gray-300">
-                      Your message has been received. We'll get back to you shortly.
+                      {formStatus.message || "Your message has been received. We'll get back to you shortly."}
                     </p>
                   </div>
                 ) : (
                   <form className="space-y-6" onSubmit={handleSubmit}>
+                    {formStatus.isError && (
+                      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-4">
+                        <div className="flex items-start">
+                          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 mr-3" />
+                          <p className="text-red-600 dark:text-red-400">{formStatus.message}</p>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="firstName" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
@@ -98,6 +170,8 @@ export default function Contact() {
                         <input
                           type="text"
                           id="firstName"
+                          value={formState.firstName}
+                          onChange={handleInputChange}
                           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="Enter your first name"
                           required
@@ -110,6 +184,8 @@ export default function Contact() {
                         <input
                           type="text"
                           id="lastName"
+                          value={formState.lastName}
+                          onChange={handleInputChange}
                           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="Enter your last name"
                           required
@@ -124,6 +200,8 @@ export default function Contact() {
                       <input
                         type="email"
                         id="email"
+                        value={formState.email}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent"
                         placeholder="Enter your email address"
                         required
@@ -137,6 +215,8 @@ export default function Contact() {
                       <input
                         type="text"
                         id="company"
+                        value={formState.company}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent"
                         placeholder="Enter your company name"
                         required
@@ -149,6 +229,8 @@ export default function Contact() {
                       </label>
                       <textarea
                         id="message"
+                        value={formState.message}
+                        onChange={handleInputChange}
                         rows={5}
                         className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent"
                         placeholder="Tell us about your project or inquiry"
@@ -156,8 +238,38 @@ export default function Contact() {
                       ></textarea>
                     </div>
 
-                    <button type="submit" className="btn-primary w-full py-3">
-                      Submit
+                    <button
+                      type="submit"
+                      className="btn-primary w-full py-3 flex items-center justify-center"
+                      disabled={formStatus.isSubmitting}
+                    >
+                      {formStatus.isSubmitting ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Submitting...
+                        </>
+                      ) : (
+                        "Submit"
+                      )}
                     </button>
                   </form>
                 )}
@@ -194,9 +306,13 @@ export default function Contact() {
                       <div>
                         <h3 className="font-bold text-lg mb-1 text-gray-900 dark:text-white">Email Us</h3>
                         <p className="text-gray-600 dark:text-gray-300">
-                          info@holboxai.com
+                          <a href="mailto:info@holboxai.cloud" className="hover:text-primary transition-colors">
+                            info@holboxai.cloud
+                          </a>
                           <br />
-                          support@holboxai.com
+                          <a href="mailto:support@holboxai.cloud" className="hover:text-primary transition-colors">
+                            support@holboxai.cloud
+                          </a>
                         </p>
                       </div>
                     </div>
@@ -208,7 +324,9 @@ export default function Contact() {
                       <div>
                         <h3 className="font-bold text-lg mb-1 text-gray-900 dark:text-white">Call Us</h3>
                         <p className="text-gray-600 dark:text-gray-300">
-                          +1 (555) 123-4567
+                          <a href="tel:+15551234567" className="hover:text-primary transition-colors">
+                            +1 (555) 123-4567
+                          </a>
                           <br />
                           Mon-Fri, 9am-5pm PST
                         </p>
@@ -238,7 +356,7 @@ export default function Contact() {
                         <Twitter className="h-5 w-5" />
                       </a>
                       <a
-                        href="mailto:info@holboxai.com"
+                        href="mailto:info@holboxai.cloud"
                         className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 text-primary hover:bg-primary hover:text-white transition-colors"
                         aria-label="Email"
                       >
@@ -249,25 +367,6 @@ export default function Contact() {
                 </div>
               </motion.div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="bg-gray-50 dark:bg-gray-800 py-16">
-        <div className="container-custom">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 gradient-text text-center">Visit Our Office</h2>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden h-96 border border-border/40"
-            >
-              <div className="w-full h-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
-                <p className="text-gray-500 dark:text-gray-300">Interactive Map Would Be Displayed Here</p>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>

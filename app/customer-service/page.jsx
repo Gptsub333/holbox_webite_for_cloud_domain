@@ -231,9 +231,9 @@ export default function CustomerService() {
               <Image
                 src="https://cdn.prod.website-files.com/65d3654e33fff13105d1a83e/65e59fb7e55f1f4518234c11_1.png"
                 alt="Reduce resolution time"
-                width={600}
-                height={450}
-                className="w-full h-auto max-h-[450px] object-contain p-4"
+                width={400}
+                height={300}
+                className="w-auto h-auto max-h-[300px] max-w-[400px] object-contain p-4"
               />
             </div>
           </div>
